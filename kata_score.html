@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KATA SCORE</title>
+</head>
+<style>
+<!--CSS starts here-->
+body {
+  font-family: Arial;
+  color: white;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 10px;
+  color: white;
+}
+
+.left {
+  left: 0;
+  background-color: red;
+}
+
+.right {
+  right: 0;
+  background-color: blue;
+}
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+h1{
+    font-size: 70px;
+}
+.name-css{
+    position: absolute;
+    bottom: 400px;
+    right: 200px;
+	
+}
+.inside-name{
+    font-size: 1.5rem;
+    border-radius: 20px;
+    cursor: pointer;
+	width: 200px;
+}
+.belt-css{
+    position: absolute;
+    bottom: 400px;
+    left: 240px;
+}
+.inside-belt{
+    font-size: 1.5rem;
+    border-radius: 20px;
+    width: 150px;
+}
+.score-css{
+	position: relative;
+	right: 180px;
+	top: 50px;
+input{
+	border-radius: 10px;
+	width: 75px;
+	font-size: 2rem;
+}
+label{
+	font-size: 2rem;
+	font-style: bold;
+}
+}
+.final-score{
+	position: relative;
+	bottom: 280px;
+    left: 100px;
+h2{
+	font-size: 2rem;
+}
+}
+p{
+	position: absolute;
+	font-size: 12rem;
+	left: 58px;
+	top: 90px ;
+}
+.button{
+	position: absolute;
+	right: 200px;
+	top:95%;
+	font-size: 1.5rem;
+    border-radius: 20px;
+    width: 150px;
+}
+.reset{
+	position: absolute;
+	right: 30px;
+	top:95%;
+	font-size: 1.5rem;
+    border-radius: 20px;
+    width: 150px;
+}
+
+</style>
+<body>  
+  <form method="POST" action="/" id="scoreForm">
+	<div class="split left">
+	<div class="centered">
+		<h1>AKA</h1>
+        <div class="name-css">
+    <select name="selected_name" id="selected_name" class="inside-name">
+      {% for name, belt in names_and_belts %}
+      <option value="{{ name }}" {% if request.form['selected_name'] == name %} selected {% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select> </div> 
+    <div class="belt-css">
+    <input type="text" id="belt_info" name="belt_info" class="inside-belt" readonly value="{{ request.form.get('belt_info', '') }}">
+    </div>
+   <div class="score-css">
+    <label for="num1">JUDGE 1:</label>
+    <input type="text" id="num1" name="num1" required value="{{ request.form.get('num1', '')}}">
+    <br><br>
+    <label for="num2">JUDGE 2:</label>
+    <input type="text" id="num2" name="num2" required value="{{ request.form.get('num2', '') }}">
+    <br><br>
+    <label for="num3">JUDGE 3:</label>
+    <input type="text" id="num3" name="num3" required value="{{ request.form.get('num3', '') }}">
+    <br><br>
+    <label for="num4">JUDGE 4:</label>
+    <input type="text" id="num4" name="num4" required value="{{ request.form.get('num4', '') }}">
+    <br><br>
+    <label for="num5">JUDGE 5:</label>
+    <input type="text" id="num5" name="num5" required value="{{ request.form.get('num5', '') }}">
+    <br><br>
+</div>
+    <button  type="submit" class="button">SUBMIT</button>
+    <button type="button" onclick="resetForm()" class="reset">Reset</button>
+  <!-- Display the result here -->
+   <div class="final-score">
+  <h2>TOTAL SCORE</h2>
+</div>
+<div class="final-value">
+  {% if result is not none %}
+  <p id="result">{{ result if result is defined else '0.0' }}</p>
+  {% endif %}   
+</div>
+</form>
+</div>
+</div>
+<form method="POST" action="/" id="scoreForm">
+  <div class="split right">
+  <div class="centered">
+  <h1>AO</h1>
+  <div class="name-css">
+    <select name="selected_name" id="selected_name" class="inside-name">
+      {% for name, belt in names_and_belts %}
+      <option value="{{ name }}" {% if request.form['selected_name'] == name %} selected {% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select> </div> 
+    <div class="belt-css">
+    <input type="text" id="belt_info" name="belt_info" class="inside-belt" readonly value="{{ request.form.get('belt_info', '') }}">
+    </div>
+   <div class="score-css">
+    <label for="num1">JUDGE 1:</label>
+    <input type="text" id="num1" name="num1" required value="{{ request.form.get('num1', '')}}">
+    <br><br>
+    <label for="num2">JUDGE 2:</label>
+    <input type="text" id="num2" name="num2" required value="{{ request.form.get('num2', '') }}">
+    <br><br>
+    <label for="num3">JUDGE 3:</label>
+    <input type="text" id="num3" name="num3" required value="{{ request.form.get('num3', '') }}">
+    <br><br>
+    <label for="num4">JUDGE 4:</label>
+    <input type="text" id="num4" name="num4" required value="{{ request.form.get('num4', '') }}">
+    <br><br>
+    <label for="num5">JUDGE 5:</label>
+    <input type="text" id="num5" name="num5" required value="{{ request.form.get('num5', '') }}">
+    <br><br>
+</div>
+    <button  type="submit" class="button">SUBMIT</button>
+    <button type="button" onclick="resetForm()" class="reset">Reset</button>
+  <!-- Display the result here -->
+   <div class="final-score">
+  <h2>TOTAL SCORE</h2>
+</div>
+<div class="final-value">
+  {% if result is not none %}
+  <p id="result">{{ result if result is defined else '0.0' }}</p>
+  {% endif %}   
+</div>
+</form>
+</div>
+</div>
+  </div>
+</div>
+  <script>
+    // JavaScript to update belt information when name is selected
+   document.getElementById('selected_name').addEventListener('change', function() {
+      var selectedName = this.value;
+      //{%for name, belt in names_and_belts %}
+        if ("{{ name }}" === selectedName) {
+         document.getElementById('belt_info').value = "{{ belt }}";
+        }
+        //document.getElementById('belt_info').value = ""; 
+	//	{% endfor %}
+    });        
+        function resetForm() {
+          document.getElementById("scoreForm").reset(); // Resets the form fields
+          document.getElementById("num1").value = ""; // Clear scores
+          document.getElementById("num2").value = "";
+          document.getElementById("num3").value = "";
+          document.getElementById("num4").value = "";
+          document.getElementById("num5").value = "";
+          document.getElementById("belt_info").value = ""; // Clear belt info
+          document.getElementById("result").innerHTML = "0.0"; // Clears the result display area
+          alert('Data Inserted');
+    }
+
+  </script>
+</body>
+</html>
